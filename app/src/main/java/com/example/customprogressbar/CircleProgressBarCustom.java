@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 public class CircleProgressBarCustom extends View {
 
     //Normal dot radius
-    private int dotRadius = 20;
+    private int dotRadius = 12;
 
     //to get identified in which position dot has to expand its radius
     //   private int dotPosition = 9;
@@ -84,7 +84,7 @@ public class CircleProgressBarCustom extends View {
 
         //specify how many dots you need in a progressbar
         int dotAmount = 20;
-        for (int i = 1; i <= dotAmount; i++) {
+        for (int i = 0; i < dotAmount; i++) {
 
             final double cos = Math.cos((angle * i) * (Math.PI / 180)); // angle should be in radians  i.e formula (angle *(Math.PI / 180))
             final double sin = Math.sin((angle * i) * (Math.PI / 180)); // angle should be in radians  i.e formula (angle *(Math.PI / 180))
@@ -92,12 +92,12 @@ public class CircleProgressBarCustom extends View {
             //to get identified in which position dot has to expand its radius
             int dotPosition = (int) Math.round(progress * 0.20);
             //specify the circle radius
-            int circleRadius = 200;
+            int circleRadius = 120;
             float x = (float) (circleRadius * cos);
             float y = (float) (circleRadius * sin);
             if (i == dotPosition && progress != 100) {
                 //Expanded Dot Radius
-                int bounceDotRadius = 30;
+                int bounceDotRadius = 18;
                 canvas.drawCircle(x, y, bounceDotRadius, progressPaint);
             } else {
                 if (i > dotPosition) {
@@ -115,15 +115,18 @@ public class CircleProgressBarCustom extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = 0;
-        int height = 0;
 
-        //Dynamically setting width and height to progressbar 100 is circle radius, dotRadius * 3 to cover the width and height of Progressbar
-        width = 100 + (dotRadius * 3);
-        height = 100 + (dotRadius * 3);
 
-        //MUST CALL THIS
-        setMeasuredDimension(width, height);
+        int size = 0;
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+
+        if (width > height) {
+            size = height;
+        } else {
+            size = width;
+        }
+        setMeasuredDimension(size, size);
     }
 
 }
